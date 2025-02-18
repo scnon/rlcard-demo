@@ -3,4 +3,10 @@ class Judger:
         pass
 
     def judge(self, game):
-        return game.get_winner()
+        winner = game.get_winner()
+        if winner:
+            return winner
+        for player in game.players:
+            if game.hu(player):
+                return player
+        return None
