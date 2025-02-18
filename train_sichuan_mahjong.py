@@ -5,6 +5,7 @@ from rlcard.utils.utils import set_seed
 from rlcard.agents.dqn_agent import DQNAgent
 import os
 import argparse
+import sichuan_mahjong
 
 def train(env, num_episodes, save_path):
     # 设置全局种子
