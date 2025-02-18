@@ -2,16 +2,16 @@ import rlcard
 from rlcard.agents import RandomAgent
 from rlcard.utils import set_global_seed, tournament
 
-# Make environment
+# 创建环境
 env = rlcard.make('sichuan_mahjong')
 
-# Set a global seed
+# 设置全局种子
 set_global_seed(0)
 
-# Set up agents
+# 设置代理
 agents = [RandomAgent(num_actions=env.num_actions) for _ in range(env.num_players)]
 env.set_agents(agents)
 
-# Evaluate the performance. Play with random agents.
+# 评估性能。与随机代理对战。
 reward = tournament(env, 1000)
-print('Average reward for RandomAgent: ', reward)
+print('随机代理的平均奖励: ', reward)
