@@ -1,13 +1,14 @@
 import rlcard
 from rlcard.agents import RandomAgent
-from rlcard.utils import set_global_seed, tournament, Logger
+from rlcard.utils import tournament, Logger
+from rlcard.utils.utils import set_seed
 from rlcard.agents.dqn_agent import DQNAgent
 import os
 import argparse
 
 def train(env, num_episodes, save_path):
     # 设置全局种子
-    set_global_seed(0)
+    set_seed(0)
 
     # 设置DQN代理
     agent = DQNAgent(num_actions=env.num_actions)
