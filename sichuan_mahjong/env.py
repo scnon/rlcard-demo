@@ -4,8 +4,9 @@ class Env:
     """
     表示游戏环境的类
     """
-    def __init__(self):
+    def __init__(self, config=None):
         self.game = Game()
+        self.config = config
 
     def reset(self):
         """

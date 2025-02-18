@@ -48,7 +48,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # 创建环境
-    env = rlcard.make('sichuan_mahjong')
+    config = {}  # Add any necessary configuration here
+    env = rlcard.make('sichuan_mahjong', config=config)
 
     if args.train:
         train(env, args.num_episodes, args.model_path)
