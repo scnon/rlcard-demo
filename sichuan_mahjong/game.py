@@ -4,47 +4,60 @@ from .dealer import Dealer
 from .judger import Judger
 
 class Game:
+    """
+    表示游戏的类
+    """
     def __init__(self):
         self.deck = Dealer().deck
         self.players = [Player(i) for i in range(4)]
         self.current_player = 0
 
     def start(self):
+        """
+        开始游戏，洗牌并发牌
+        """
         self.deck.shuffle()
         for _ in range(13):
             for player in self.players:
                 player.draw_card(self.deck)
 
     def play_turn(self):
+        """
+        进行一轮游戏，当前玩家摸牌并出牌
+        """
         player = self.players[self.current_player]
         drawn_card = self.deck.draw()
         player.draw_card(drawn_card)
-        # Simplified logic for discarding the first card in hand
+        # 简化的逻辑，丢弃手中的第一张牌
         discarded_card = player.hand[0]
         player.discard_card(discarded_card)
         self.current_player = (self.current_player + 1) % 4
 
     def is_game_over(self):
-        # Simplified game over condition
+        """
+        检查游戏是否结束
+        """
         return len(self.deck.cards) == 0 or any(self.check_victory(player) for player in self.players)
 
     def get_winner(self):
-        # Improved winner determination based on Sichuan Mahjong rules
+        """
+        获取游戏的赢家
+        """
         for player in self.players:
             if self.check_victory(player):
                 return player
         return None
 
     def check_victory(self, player):
-        # Check if the player has a winning hand
-        # This is a simplified version of the actual Sichuan Mahjong victory check
-        # In a real implementation, you would need to check for specific winning patterns
+        """
+        检查玩家是否获胜
+        """
         return len(player.hand) == 14 and self.has_valid_combination(player.hand)
 
     def has_valid_combination(self, hand):
-        # Check if the hand has a valid combination of tiles
-        # This is a simplified version of the actual Sichuan Mahjong combination check
-        # In a real implementation, you would need to check for specific tile combinations
+        """
+        检查手牌是否有有效的组合
+        """
         def is_valid_set(tiles):
             return len(tiles) == 3 and (tiles[0] == tiles[1] == tiles[2] or
                                         tiles[0] + 1 == tiles[1] and tiles[1] + 1 == tiles[2])
@@ -74,17 +87,21 @@ class Game:
         return can_form_melds(hand) and can_form_pairs(hand)
 
     def calculate_score(self, player):
-        # Calculate the score for a player based on their hand
-        # This is a simplified version of the actual Sichuan Mahjong score calculation
-        # In a real implementation, you would need to calculate the score based on specific tile combinations and patterns
+        """
+        计算玩家的分数
+        """
         return len(player.hand)
 
     def get_scores(self):
-        # Get the scores for all players
+        """
+        获取所有玩家的分数
+        """
         return {player.player_id: self.calculate_score(player) for player in self.players}
 
     def peng(self, player, card):
-        # Add logic for "碰" action
+        """
+        处理玩家的碰操作
+        """
         if player.hand.count(card) >= 2:
             player.hand.remove(card)
             player.hand.remove(card)
@@ -93,7 +110,9 @@ class Game:
         return False
 
     def gang(self, player, card):
-        # Add logic for "杠" action
+        """
+        处理玩家的杠操作
+        """
         if player.hand.count(card) == 3:
             player.hand.remove(card)
             player.hand.remove(card)
@@ -103,5 +122,7 @@ class Game:
         return False
 
     def hu(self, player):
-        # Add logic for "胡" action
+        """
+        处理玩家的胡操作
+        """
         return self.check_victory(player)
